@@ -2,9 +2,9 @@ import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import { View } from "react-native";
 import { Text, TextInput } from "react-native-paper";
-import ButtonEdit from "../../../components/ProductComponents/EditProductScreen/ButtonComponents/ButtonEdit";
+import ButtonTambah from "../../../components/ProductComponents/TambahProductScreen/ButtonComponents/ButtonTambah";
 
-export default function EditProduct() {
+export default function TambahProduct() {
   const [selectedJenis, setSelectedJenis] = useState("menu satuan");
   return (
     <View
@@ -86,7 +86,7 @@ export default function EditProduct() {
         />
         <Picker.Item style={{ fontSize: 16 }} label="Minuman" value="minuman" />
       </Picker>
-      <ButtonEdit/>
+      <ButtonTambah/>
     </View>
   );
 }
