@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, View } from "react-native";
-import GlobalStyle from "../../styles/GlobalStyle";
 import { Card, Divider, Text } from "react-native-paper";
+import GlobalStyle from "../../../../styles/GlobalStyle";
 
 export default function CardDetailTransaksi() {
   return (
@@ -18,7 +18,7 @@ export default function CardDetailTransaksi() {
               <View >
               <Image
                   style={{ width: 50, height: 60 }}
-                  source={require("../../assets/logo.jpg")}
+                  source={require("../../../../assets/logo.jpg")}
                 />
               </View>
               <View style={{
