@@ -9,7 +9,9 @@ export default function SearchBarHome() {
   const navigation = useNavigation();
   return (
     <View style={GlobalStyle.searchContainer}>
-      <View style={[GlobalStyle.borderShadow, GlobalStyle.searchBar]}>
+      <View
+        style={[GlobalStyle.borderShadow, GlobalStyle.searchBar]}
+      >
         <Ionicons name="search" size={12} />
         <TextInput placeholder="Cari produk" />
       </View>
@@ -19,12 +21,11 @@ export default function SearchBarHome() {
         }}
         icon="cart"
         onPress={() =>
-          navigation.navigate("Keranjang Product", { screen: "KeranjangProduct" })
+          navigation.navigate("Keranjang Product", {
+            screen: "KeranjangProduct",
+          })
         }
       />
-      {/* <IconButton style={{
-        marginLeft:0,
-      }} icon="logout" /> */}
     </View>
   );
 }
