@@ -1,92 +1,120 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { View } from "react-native";
-import { Text, TextInput } from "react-native-paper";
-import ButtonTambah from "../../../components/ProductComponents/TambahProductScreen/ButtonComponents/ButtonTambah";
+import { Alert, StyleSheet, View } from "react-native";
+import { Button, Text, TextInput } from "react-native-paper";
+import { API_BASE_URL } from "../../../api/apiConfig";
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    margin: 20,
+  },
+  textFormStyle: {
+    paddingVertical: 10,
+  },
+  pickerFormStyle: {
+    backgroundColor: "#E2DDEB",
+    height: 50,
+  },
+  buttonFormStyle: {
+    paddingVertical: 10,
+  },
+});
 
 export default function TambahProduct() {
   const [selectedJenis, setSelectedJenis] = useState("menu satuan");
+  const [nama_produk, setNamaProduk] = useState("");
+  const [jns_produk, setJenisProduk] = useState("");
+  const [harga, setHarga] = useState("");
+  const [keterangan, setKeterangan] = useState("");
+
+  const handleTambahProduk = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/product`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nama_produk, jns_produk, harga, keterangan }),
+      });
+      // console.log(response)
+      const data = await response.json();
+
+      if (response.ok) {
+        setSelectedJenis('');
+        setNamaProduk('');
+        setJenisProduk('');
+        setHarga('');
+        setKeterangan('');
+        Alert.alert("Sukses", data.msg);
+      } else {
+        console.log(response);
+        Alert.alert("Error", data.msg);
+      }
+    } catch (error) {
+      // console.log(error)
+      Alert.alert("Error", "Terdapat kesalahan saat input data");
+    }
+  };
+  // Data array yang berisi label dan nilai untuk setiap opsi picker
+  const options = [
+    { label: "Paket Crispy", value: "paket crispy" },
+    { label: "Paket Penyetan", value: "paket penyetan" },
+    { label: "Saus Spesial", value: "saus spesial" },
+    { label: "Mie Pedas", value: "mie pedas" },
+    { label: "Menu Satuan", value: "menu satuan" },
+    { label: "Menu Sayur", value: "menu sayur" },
+    { label: "Menu Varian Rasa", value: "menu varian rasa" },
+    { label: "Menu Lain-Lain", value: "menu lain-lain" },
+    { label: "Minuman", value: "minuman" },
+  ];
+
   return (
-    <View
-      style={{
-        // padding:4
-        margin: 20,
-      }}
-    >
-      <Text
-        style={{
-          paddingBottom: 10,
-        }}
-      >
-        Nama Product
-      </Text>
-      <TextInput />
-      <Text
-        style={{
-          paddingVertical: 10,
-        }}
-      >
-        Harga
-      </Text>
-      <TextInput />
-      <Text
-        style={{
-          paddingVertical: 10,
-        }}
-      >
-        Jenis Produk
-      </Text>
+    <View style={styles.mainContainer}>
+      <Text style={styles.textFormStyle}>Nama Product</Text>
+      <TextInput
+        label="Nama produk"
+        value={nama_produk}
+        onChangeText={(nama_produk) => setNamaProduk(nama_produk)}
+      />
+      <Text style={styles.textFormStyle}>Harga</Text>
+      <TextInput
+        label="Harga produk"
+        value={harga}
+        onChangeText={(harga) => setHarga(harga)}
+      />
+      <Text style={styles.textFormStyle}>Jenis Produk</Text>
       <Picker
-        style={{
-          backgroundColor:"#E2DDEB",
-          height: 50,
-        }}
+        style={styles.pickerFormStyle}
         selectedValue={selectedJenis}
-        onValueChange={(itemValue, itemIndex) => setSelectedJenis(itemValue)}
+        onValueChange={(itemValue, itemIndex) => {
+          setSelectedJenis(itemValue);
+          setJenisProduk(itemValue); // Set jenis_produk saat nilai berubah
+        }}
       >
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Paket Crispy"
-          value="paket crispy"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Paket Penyetan"
-          value="paket penyetan"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Saus Spesial"
-          value="saus spesial"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Mie Pedas"
-          value="mie pedas"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Menu Satuan"
-          value="menu satuan"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Menu Sayur"
-          value="menu sayur"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Menu Varian Rasa"
-          value="menu varian rasa"
-        />
-        <Picker.Item
-          style={{ fontSize: 16 }}
-          label="Menu Lain-Lain"
-          value="menu lain-lain"
-        />
-        <Picker.Item style={{ fontSize: 16 }} label="Minuman" value="minuman" />
+        {options.map((option, index) => (
+          <Picker.Item
+            key={index}
+            label={option.label}
+            value={option.value} // Atur nilai dari option.value
+            style={{ fontSize: 16 }}
+          />
+        ))}
       </Picker>
-      <ButtonTambah/>
+      <Text style={styles.textFormStyle}>Keterangan</Text>
+      <TextInput
+        label="Keterangan produk"
+        value={keterangan}
+        onChangeText={(keterangan) => setKeterangan(keterangan)}
+      />
+      {/* <ButtonTambah  /> */}
+      <Button
+        buttonColor="#A25ABF"
+        textColor="white"
+        style={{ marginVertical: 30 }}
+        onPress={handleTambahProduk}
+      >
+        Tambah
+      </Button>
     </View>
   );
 }
