@@ -1,27 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, Image, Text } from "react-native";
+import { ScrollView, View, Image, Text, Alert } from "react-native";
 import { Button, Card, Title } from "react-native-paper";
 import GlobalStyle from "../../../../styles/GlobalStyle";
 import ButtonAdd from "../ButtonComponents/ButtonAdd";
-import ButtonEdit from "../ButtonComponents/ButtonEdit";
 import { Ionicons } from "react-native-vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import ButtonDelete from "../ButtonComponents/ButtonDelete";
 import { API_BASE_URL } from "../../../../api/apiConfig";
 
 export default function CardProduct() {
   const [products, setProducts] = useState([]);
   const navigation = useNavigation();
-  
+
   useEffect(() => {
-    fetch(`${API_BASE_URL}/product`)
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error("Error fetching products:", error));
+    fetchProducts();
   }, []);
 
-  const handleEditProduct = (productId) => {
-    navigation.navigate("Edit Product", { productId});
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/product`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const handleEditProduk = (productId) => {
+    navigation.navigate("Edit Product", { productId });
+  };
+
+  const handleDeleteProduk = async (productId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/product/${productId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      // Jika penghapusan berhasil, panggil kembali API untuk mendapatkan daftar produk terbaru
+      if (response.ok) {
+        Alert.alert("Sukses", data.msg);
+        fetchProducts();
+      } else {
+        Alert.alert("Error", data.msg);
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", "Terdapat kesalahan saat input data");
+    }
   };
 
   return (
@@ -72,12 +101,18 @@ export default function CardProduct() {
                   buttonColor="#F7D716"
                   style={{ marginRight: 10 }}
                   textColor="white"
-                  onPress={() => handleEditProduct(product.id)} // Menggunakan fungsi handleEditProduct
+                  onPress={() => handleEditProduk(product.id)} // Menggunakan fungsi handleEditProduk
                 >
-                  <Ionicons name="pencil" size={25} /> Edit :{ product.id}
+                  <Ionicons name="pencil" size={25} /> Edit
                 </Button>
                 {/* Button Delete */}
-                <ButtonDelete />
+                <Button
+                  buttonColor="#E40017"
+                  textColor="white"
+                  onPress={() => handleDeleteProduk(product.id)}
+                >
+                  <Ionicons name="trash" size={18} /> Hapus
+                </Button>
               </View>
             </View>
           </Card.Content>
