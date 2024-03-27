@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
 });
 
 export default function TambahProduct() {
-  const [selectedJenis, setSelectedJenis] = useState("menu satuan");
   const [nama_produk, setNamaProduk] = useState("");
   const [jns_produk, setJenisProduk] = useState("");
   const [harga, setHarga] = useState("");
@@ -40,7 +39,6 @@ export default function TambahProduct() {
       const data = await response.json();
 
       if (response.ok) {
-        setSelectedJenis('');
         setNamaProduk('');
         setJenisProduk('');
         setHarga('');
@@ -51,7 +49,7 @@ export default function TambahProduct() {
         Alert.alert("Error", data.msg);
       }
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       Alert.alert("Error", "Terdapat kesalahan saat input data");
     }
   };
@@ -63,7 +61,7 @@ export default function TambahProduct() {
     { label: "Mie Pedas", value: "mie pedas" },
     { label: "Menu Satuan", value: "menu satuan" },
     { label: "Menu Sayur", value: "menu sayur" },
-    { label: "Menu Varian Rasa", value: "menu varian rasa" },
+    { label: "Minuman Varian Rasa", value: "minuman varian rasa" },
     { label: "Menu Lain-Lain", value: "menu lain-lain" },
     { label: "Minuman", value: "minuman" },
   ];
@@ -85,9 +83,8 @@ export default function TambahProduct() {
       <Text style={styles.textFormStyle}>Jenis Produk</Text>
       <Picker
         style={styles.pickerFormStyle}
-        selectedValue={selectedJenis}
+        selectedValue={jns_produk}
         onValueChange={(itemValue, itemIndex) => {
-          setSelectedJenis(itemValue);
           setJenisProduk(itemValue); // Set jenis_produk saat nilai berubah
         }}
       >
