@@ -79,7 +79,7 @@ export default StyleSheet.create({
   //Card Transaksi
   cardTransaksiContainer: {
     height: 150,
-    marginRight: 10,
+    marginRight: 4,
     marginBottom: 10,
   },
 

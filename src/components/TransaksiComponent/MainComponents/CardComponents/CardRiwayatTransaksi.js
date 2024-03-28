@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { Card, IconButton } from "react-native-paper";
+import { Button, Card, IconButton } from "react-native-paper";
 import GlobalStyle from "../../../../styles/GlobalStyle";
-import ButtonDetail from "../ButtonComponents/ButtonDetail";
+import { API_BASE_URL } from "../../../../api/apiConfig";
+import { useNavigation } from "@react-navigation/native";
 
-export default function CardRiwayatTransaksi({ }) {
+export default function CardRiwayatTransaksi({}) {
+  const [dataTransaksi, setDataTransaksi] = useState([]);
+  const navigation = useNavigation();
+  useEffect(() => {
+    fetchTransaksi();
+  }, []);
+
+  const fetchTransaksi = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/transaksi`);
+      const data = await response.json();
+      console.log(data);
+      setDataTransaksi(data);
+    } catch (error) {
+      console.error("Error fetching transaksi", error);
+    }
+  };
+
+  // Fungsi untuk memformat harga menjadi format mata uang Rupiah
+  const formatToRupiah = (harga) => {
+    return harga.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const handleDetailTransaksi = (idTransaksi) => {
+    navigation.navigate("Detail Transaksi", { idTransaksi });
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {/* Card */}
-      {Array.from(Array(15)).map((_, i) => (
-        <Card key={i} style={GlobalStyle.cardTransaksiContainer}>
+      {dataTransaksi.map((transaksi, index) => (
+        <Card key={index} style={GlobalStyle.cardTransaksiContainer}>
           <Card.Content style={{ flexDirection: "column" }}>
             <View
               style={{
@@ -34,7 +61,7 @@ export default function CardRiwayatTransaksi({ }) {
                   marginEnd: 2,
                 }}
               >
-                Senin, 21 Desember 2023
+                {transaksi.updatedAt.slice(0, 10)}
               </Text>
               <IconButton
                 style={{
@@ -52,8 +79,25 @@ export default function CardRiwayatTransaksi({ }) {
                   fontWeight: "bold",
                 }}
               >
-                {" "}
-                12.00
+                {transaksi.updatedAt.slice(10, 19)}
+              </Text>
+              <IconButton
+                style={{
+                  marginTop: 0,
+                  paddingTop: 0,
+                  marginEnd: 0,
+                }}
+                size={20}
+                icon="food"
+              />
+              <Text
+                style={{
+                  paddingTop: 10,
+                  fontSize: 12,
+                  fontWeight: "bold",
+                }}
+              >
+                {transaksi.layanan}
               </Text>
             </View>
             {/* Baris 2 */}
@@ -94,7 +138,7 @@ export default function CardRiwayatTransaksi({ }) {
                     fontWeight: "bold",
                   }}
                 >
-                  1440900299029
+                  {transaksi.nama_pelanggan}
                 </Text>
                 <Text
                   style={{
@@ -102,11 +146,11 @@ export default function CardRiwayatTransaksi({ }) {
                     fontWeight: "bold",
                   }}
                 >
-                  Rp. 200.000
+                  Rp. {formatToRupiah(transaksi.tot_harga)}
                 </Text>
               </View>
             </View>
-          {/* Baris 3 */}
+            {/* Baris 3 */}
             <View
               style={{
                 flexDirection: "row",
@@ -114,8 +158,16 @@ export default function CardRiwayatTransaksi({ }) {
                 margin: 5,
               }}
             >
-            {/* Button Detail Transaksi */}
-              <ButtonDetail/>
+              {/* Button Detail Transaksi */}
+              <Button
+                buttonColor="#36A933"
+                style={{ marginTop: 5 }}
+                textColor="white"
+                mode="elevated"
+                onPress={() => handleDetailTransaksi(transaksi.id)}
+              >
+                Detail
+              </Button>
             </View>
           </Card.Content>
         </Card>
