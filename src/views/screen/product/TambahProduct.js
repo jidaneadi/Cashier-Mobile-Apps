@@ -55,6 +55,7 @@ export default function TambahProduct() {
   };
   // Data array yang berisi label dan nilai untuk setiap opsi picker
   const options = [
+    { label: "Pilih Jenis Produk", value: "" },
     { label: "Paket Crispy", value: "paket crispy" },
     { label: "Paket Penyetan", value: "paket penyetan" },
     { label: "Saus Spesial", value: "saus spesial" },

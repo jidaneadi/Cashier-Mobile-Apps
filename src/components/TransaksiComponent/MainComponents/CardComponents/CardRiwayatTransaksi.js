@@ -8,6 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 export default function CardRiwayatTransaksi({}) {
   const [dataTransaksi, setDataTransaksi] = useState([]);
   const navigation = useNavigation();
+  const tanggalLogin = new Date().toISOString().slice(0, 10);
+
   useEffect(() => {
     fetchTransaksi();
   }, []);
@@ -16,8 +18,11 @@ export default function CardRiwayatTransaksi({}) {
     try {
       const response = await fetch(`${API_BASE_URL}/transaksi`);
       const data = await response.json();
+      const newData = data.filter(item => item.updatedAt.slice(0, 10) === tanggalLogin);
       console.log(data);
-      setDataTransaksi(data);
+      console.log(tanggalLogin)
+      console.log(newData)
+      setDataTransaksi(newData);
     } catch (error) {
       console.error("Error fetching transaksi", error);
     }

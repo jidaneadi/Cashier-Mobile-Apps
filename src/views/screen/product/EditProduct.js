@@ -52,7 +52,6 @@ export default function EditProduct({ route }) {
         setKeterangan("");
         Alert.alert("Sukses", data.msg);
       } else {
-        console.log(response);
         Alert.alert("Error", data.msg);
       }
     } catch (error) {
