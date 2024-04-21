@@ -1,6 +1,6 @@
 import React from "react";
 import GlobalStyle from "../../../../styles/GlobalStyle";
-import { View, ScrollView, Text} from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import { Button, Card, Dialog, Portal } from "react-native-paper";
 import { Ionicons } from "react-native-vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,15 +22,25 @@ export default function ScrollMenuSatuan(props) {
     <View>
       <Text style={GlobalStyle.textStyle}>Menu Satuan</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {data.filter(menus => menus.jns_produk === "menu satuan").map((menus, i) => (
-          <Card key={i} onPress={showDialog} style={GlobalStyle.cardContainer}>
-            <Card.Cover style={GlobalStyle.cardCover} />
-            <Card.Content style={GlobalStyle.cardContent}>
-              <Text style={GlobalStyle.textCardContent}>{menus.nama_produk}</Text>
-              <Text>{menus.harga}</Text>
-            </Card.Content>
-          </Card>
-        ))}
+        {data
+          .filter((menus) => menus.jns_produk === "menu satuan")
+          .map((menus, i) => (
+            <Card
+              key={i}
+              onPress={showDialog}
+              style={GlobalStyle.cardContainer}
+            >
+              <Card.Cover style={GlobalStyle.cardCover} />
+              <Card.Content style={GlobalStyle.cardContent}>
+                <Text style={GlobalStyle.textCardContent}>
+                  {menus.nama_produk}
+                </Text>
+                <Text style={{ fontSize: 12, fontWeight: "500" }}>
+                  {menus.harga}
+                </Text>
+              </Card.Content>
+            </Card>
+          ))}
         {/* Dialog */}
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>

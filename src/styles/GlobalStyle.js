@@ -52,7 +52,7 @@ export default StyleSheet.create({
 
   //Card Scroll View Style
   cardContainer: {
-    height: 200,
+    height: 210,
     width: 150,
     marginRight: 10,
     marginBottom: 10,
@@ -65,7 +65,7 @@ export default StyleSheet.create({
     padding: 10,
   },
   textCardContent : {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
   },
 

@@ -52,7 +52,7 @@ export default function CashierScreen() {
         <ScrollMenuSatuan data={data}/>
 
         {/* Scroll Paket Crispy*/}
-        <ScrollPaketCrispy />
+        <ScrollPaketCrispy data={data} />
 
         {/* Scroll Paket Penyetan*/}
         <ScrollPaketPenyetan />
