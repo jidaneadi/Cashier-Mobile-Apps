@@ -65,7 +65,7 @@ export default StyleSheet.create({
     padding: 10,
   },
   textCardContent : {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "500",
   },
 
