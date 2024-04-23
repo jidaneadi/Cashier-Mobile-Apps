@@ -71,6 +71,8 @@ export default StyleSheet.create({
 
   //Card Scroll View in ProductScreen
   cardProductContainer: {
+    flexDirection:"row",
+    overflow:"hidden",
     height: 140,
     marginRight: 10,
     marginBottom: 10,

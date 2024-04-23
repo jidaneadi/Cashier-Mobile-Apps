@@ -23,7 +23,7 @@ export default function EditProduct({ route }) {
         const data = await response.json();
         // Atur nilai state berdasarkan respons dari API
         setNamaProduk(data.nama_produk);
-        setJenisProduk(data.jenis_produk);
+        setJenisProduk(data.jns_produk);
         setHarga(data.harga);
         setKeterangan(data.keterangan);
       } catch (error) {
