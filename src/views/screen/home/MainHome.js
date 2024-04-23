@@ -70,7 +70,7 @@ export default function CashierScreen() {
         <ScrollMinuman data={data}/>
 
         {/* Scroll Minuman Varian Rasa*/}
-        <ScrollMinumanRasa />
+        <ScrollMinumanRasa data={data}/>
 
         {/* Scroll Menu Lain-Lain*/}
         <ScrollMenuLain />
