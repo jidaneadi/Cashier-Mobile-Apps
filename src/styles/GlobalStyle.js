@@ -78,6 +78,14 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
 
+  cardKeranjangProduk: {
+    flexDirection:"row",
+    overflow:"hidden",
+    height: 120,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+
   //Card Transaksi
   cardTransaksiContainer: {
     height: 150,

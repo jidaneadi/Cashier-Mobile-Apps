@@ -1,61 +1,88 @@
 import React from "react";
 import { View, Image } from "react-native";
-import { Card, Text, Title } from "react-native-paper";
+import { Button, Card, Text, Title } from "react-native-paper";
+import { Ionicons } from "react-native-vector-icons";
 import GlobalStyle from "../../../../styles/GlobalStyle";
-import ButtonPlus from "../ButtonComponents/ButtonPlus";
-import ButtonMin from "../ButtonComponents/ButtonMin";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function CardKeranjang() {
+export default function CardKeranjang({key, productId, productName, productHarga, jml}) {
+  const dispatch = useDispatch();
+  console.log(key)
   return (
     <View>
-      {/* Card */}
-      {Array.from(Array(5)).map((_,i) => (
-        <Card key={i} style={GlobalStyle.cardProductContainer}>
-          <Card.Content style={{ flexDirection: "row" }}>
-            <View style={{ marginRight: 50 }}>
-              <Image
-                style={{ width: 75, height: 100 }}
-                source={require("../../../../assets/logo.jpg")}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Title
-                style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  marginTop: 0,
-                  marginBottom: 0,
-                }}
-              >
-                Nama Makanan
-              </Title>
-              <Title
-                style={{
-                  fontSize:10,
-                  fontWeight:"bold",
-                  marginBottom:0,
-                  color:"#B4A5A5"
-                }} >Rp. 30.000</Title>
+      <Card key={key} style={GlobalStyle.cardKeranjangProduk}>
+        <View>
+          <Card.Content>
+            <Title
+              style={{
+                fontSize: 16,
+                fontWeight: "bold",
+                marginTop: 0,
+                marginBottom: 0,
+              }}
+            >
+              {productName}
+              {/* {item.nama_produk} */}
+            </Title>
+            <Title
+              style={{
+                fontSize: 10,
+                fontWeight: "bold",
+                marginBottom: 0,
+              }}
+            >
+              {productHarga}
+              {/* Harga: Rp. {item.harga} */}
+            </Title>
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-around",
                   marginTop: 5,
                   marginBottom: 5,
                 }}
               >
-                {/* Button Tambah */}
-                <ButtonPlus />
-
-                <Text style={{ padding: 10 }}>2</Text>
-
-                {/* Button Minus */}
-                <ButtonMin />
+                {/* Tombol Minus */}
+                <Button
+                  buttonColor="#A25ABF"
+                  style={{
+                    marginBottom: 10,
+                    marginRight: 10,
+                    width: 60,
+                  }}
+                >
+                  <Ionicons name="remove" color="white" size={20} />
+                </Button>
+                <Text variant="bodyMedium">{jml}</Text>
+                {/* Tombol Plus */}
+                <Button
+                  buttonColor="#A25ABF"
+                  style={{
+                    marginBottom: 10,
+                    marginRight: 10,
+                    marginStart: 8,
+                    width: 60,
+                  }}
+                >
+                  <Ionicons name="add" color="white" size={20} />
+                </Button>
+              </View>
+              <View
+                style={{
+                  marginTop: 20,
+                  marginStart: 120,
+                }}
+              >
+                <Text>Rp. {productHarga * jml}</Text>
               </View>
             </View>
           </Card.Content>
-        </Card>
-      ))}
+        </View>
+      </Card>
     </View>
   );
 }

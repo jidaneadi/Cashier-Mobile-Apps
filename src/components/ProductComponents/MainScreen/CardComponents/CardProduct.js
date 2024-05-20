@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { API_BASE_URL } from "../../../../api/apiConfig";
 
 export default function CardProduct(props) {
-  const imageProduk = require('../../../../assets/logo.jpg')
+  const imageProduk = require('../../../../assets/logo.jpg');
   const navigation = useNavigation();
   const products = props.data;
   console.log("Data = ", props.data);

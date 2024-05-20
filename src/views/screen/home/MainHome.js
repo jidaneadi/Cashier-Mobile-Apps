@@ -11,6 +11,8 @@ import ScrollMinumanRasa from "../../../components/HomeComponents/MainScreen/Scr
 import ScrollMenuLain from "../../../components/HomeComponents/MainScreen/ScrollComponents/ScrollMenuLain";
 import SearchBarHome from "../../../components/SearchBarComponents/SearchBarHome";
 import { API_BASE_URL } from "../../../api/apiConfig";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../dataservices/slice/cartSlice";
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -30,18 +32,23 @@ const styles = StyleSheet.create({
 });
 
 export default function CashierScreen() {
-  const [data, setData] = useState([]);
+  const [item, setItem] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchData();
+    fetchitem();
   }, []);
- const fetchData = async () => {
+ const fetchitem = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/product`);
     const data = await response.json();
-    setData(data)
+    setItem(data)
   } catch (error) {
     console.log(error)
   }
+ }
+
+ const handleAddToCart = (items) => {
+  dispatch(addToCart(items));
  }
   return (
     <View style={styles.mainContainer}>
@@ -49,31 +56,31 @@ export default function CashierScreen() {
       <SearchBarHome />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Scroll Menu Satuan*/}
-        <ScrollMenuSatuan data={data}/>
+        <ScrollMenuSatuan data={item}/>
 
         {/* Scroll Paket Crispy*/}
-        <ScrollPaketCrispy data={data} />
+        <ScrollPaketCrispy data={item} />
 
         {/* Scroll Paket Penyetan*/}
-        <ScrollPaketPenyetan data={data} />
+        <ScrollPaketPenyetan data={item} />
 
         {/* Scroll Menu Mie Pedas*/}
-        <ScrollMiePedas data={data}/>
+        <ScrollMiePedas data={item}/>
 
         {/* Scroll Saus Spesial*/}
-        <ScrollSausSpesial data={data}/>
+        <ScrollSausSpesial data={item}/>
 
         {/* Scroll Menu Sayur*/}
-        <ScrollMenuSayur data={data}/>
+        <ScrollMenuSayur data={item}/>
 
         {/* Scroll Minuman*/}
-        <ScrollMinuman data={data}/>
+        <ScrollMinuman data={item}/>
 
         {/* Scroll Minuman Varian Rasa*/}
-        <ScrollMinumanRasa data={data}/>
+        <ScrollMinumanRasa data={item}/>
 
         {/* Scroll Menu Lain-Lain*/}
-        <ScrollMenuLain data={data}/>
+        <ScrollMenuLain produk={item} onAddToCart={handleAddToCart}/>
       </ScrollView>
     </View>
   );
