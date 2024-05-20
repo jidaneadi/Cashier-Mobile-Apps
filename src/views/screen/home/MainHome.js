@@ -56,28 +56,28 @@ export default function CashierScreen() {
       <SearchBarHome />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Scroll Menu Satuan*/}
-        <ScrollMenuSatuan data={item}/>
+        <ScrollMenuSatuan produk={item} onAddToCart={handleAddToCart}/>
 
         {/* Scroll Paket Crispy*/}
-        <ScrollPaketCrispy data={item} />
+        <ScrollPaketCrispy produk={item} onAddToCart={handleAddToCart} />
 
         {/* Scroll Paket Penyetan*/}
-        <ScrollPaketPenyetan data={item} />
+        <ScrollPaketPenyetan produk={item} onAddToCart={handleAddToCart} />
 
         {/* Scroll Menu Mie Pedas*/}
-        <ScrollMiePedas data={item}/>
+        <ScrollMiePedas produk={item} onAddToCart={handleAddToCart}/>
 
         {/* Scroll Saus Spesial*/}
-        <ScrollSausSpesial data={item}/>
+        <ScrollSausSpesial produk={item} onAddToCart={handleAddToCart}/>
 
         {/* Scroll Menu Sayur*/}
-        <ScrollMenuSayur data={item}/>
+        <ScrollMenuSayur produk={item} onAddToCart={handleAddToCart}/>
 
         {/* Scroll Minuman*/}
-        <ScrollMinuman data={item}/>
+        <ScrollMinuman produk={item} onAddToCart={handleAddToCart}/>
 
         {/* Scroll Minuman Varian Rasa*/}
-        <ScrollMinumanRasa data={item}/>
+        <ScrollMinumanRasa produk={item} onAddToCart={handleAddToCart}/>
 
         {/* Scroll Menu Lain-Lain*/}
         <ScrollMenuLain produk={item} onAddToCart={handleAddToCart}/>

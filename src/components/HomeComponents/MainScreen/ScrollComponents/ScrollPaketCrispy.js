@@ -1,98 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import GlobalStyle from "../../../../styles/GlobalStyle";
 import { View, ScrollView, Text } from "react-native";
-import { Button, Card, Dialog, Portal } from "react-native-paper";
-import { Ionicons } from "react-native-vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  decrement,
-  increment,
-} from "../../../../dataservices/slice/counterslice";
-export default function ScrollPaketCrispy(props) {
-  const [visible, setVisible] = React.useState(false);
-  const count = useSelector((state) => state.counter.value);
+import { Card } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import DialogInputJumlah from "../DialogComponents/DialogInputJumlah";
+
+export default function ScrollPaketCrispy({produk, onAddToCart}) {
+  const [visible, setVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
 
-  const showDialog = () => setVisible(true);
+  const showDialog = (product) => {
+    setSelectedProduct(product);
+    setVisible(true);
+  };
 
-  const hideDialog = () => setVisible(false);
-
-  const data = props.data;
+  const addToCart = () => {
+    if (selectedProduct) { // Pengecekan data apakah kosong atau tidak
+      onAddToCart(selectedProduct);
+      setVisible(false);
+    }
+  };
   return (
     <View>
       <Text style={GlobalStyle.textStyle}>Paket Crispy</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {data
-          .filter((menus) => menus.jns_produk === "paket crispy")
-          .map((menus, i) => (
-            <Card
-              key={i}
-              onPress={showDialog}
-              style={GlobalStyle.cardContainer}
-            >
-              <Card.Cover style={GlobalStyle.cardCover} />
-              <Card.Content style={GlobalStyle.cardContent}>
-                <Text style={GlobalStyle.textCardContent}>
-                  {menus.nama_produk}
-                </Text>
-                <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                  {menus.harga}
-                </Text>
-              </Card.Content>
-            </Card>
-          ))}
-
-        {/* Dialog */}
-        <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog}>
-            <Dialog.Title
-              style={{
-                textAlign: "center",
-              }}
-            >
-              Jumlah
-            </Dialog.Title>
-            <Dialog.Content>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginTop: 10,
-                }}
-              >
-                <Button
-                  buttonColor="#A25ABF"
-                  style={{
-                    marginBottom: 10,
-                    marginRight: 10,
-                    width: 60,
-                  }}
-                  textColor="white"
-                  onPress={() => dispatch(decrement())}
-                >
-                  <Ionicons name="remove" />
-                </Button>
-                <Text variant="bodyMedium">{count}</Text>
-                <Button
-                  buttonColor="#A25ABF"
-                  style={{
-                    marginBottom: 10,
-                    marginRight: 10,
-                    width: 60,
-                  }}
-                  textColor="white"
-                  onPress={() => dispatch(increment())}
-                >
-                  <Ionicons name="add" />
-                </Button>
-              </View>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={hideDialog}>Tambah</Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+      {produk.filter((product) => product.jns_produk === "paket crispy").map((product, i) => (
+          <Card
+            key={i}
+            onPress={() => showDialog(product)}
+            style={GlobalStyle.cardContainer}
+          >
+            <Card.Cover style={GlobalStyle.cardCover} />
+            <Card.Content style={GlobalStyle.cardContent}>
+              <Text style={GlobalStyle.textCardContent}>
+                {product.nama_produk}
+              </Text>
+              <Text style={{ fontSize: 12, fontWeight: "500" }}>
+                {product.harga}
+              </Text>
+            </Card.Content>
+          </Card>
+        ))}
       </ScrollView>
+      {selectedProduct && ( // Melakukan pemilihan data produk
+        <DialogInputJumlah
+          visible={visible}
+          onClose={() => setVisible(false)}
+          onAdd={addToCart}
+          productId={selectedProduct.id} //Mengambil data id produk yang di klik
+          productName={selectedProduct.nama_produk}//Mengambil data nama produk yang di klik
+          productHarga={selectedProduct.harga}//Mengambil data harga produk yang di klik
+        />
+      )}
     </View>
   );
 }
