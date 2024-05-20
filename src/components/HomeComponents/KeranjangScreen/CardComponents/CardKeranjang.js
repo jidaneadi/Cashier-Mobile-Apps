@@ -4,6 +4,7 @@ import { Button, Card, Text, Title } from "react-native-paper";
 import { Ionicons } from "react-native-vector-icons";
 import GlobalStyle from "../../../../styles/GlobalStyle";
 import { useDispatch, useSelector } from "react-redux";
+import { addItemCart, removeFromCart } from "../../../../dataservices/slice/cartSlice";
 
 export default function CardKeranjang({key, productId, productName, productHarga, jml}) {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ export default function CardKeranjang({key, productId, productName, productHarga
                     marginRight: 10,
                     width: 60,
                   }}
+                  onPress={() => dispatch(removeFromCart(productId))}
                 >
                   <Ionicons name="remove" color="white" size={20} />
                 </Button>
@@ -67,6 +69,7 @@ export default function CardKeranjang({key, productId, productName, productHarga
                     marginStart: 8,
                     width: 60,
                   }}
+                  onPress={() => dispatch(addItemCart(productId))}
                 >
                   <Ionicons name="add" color="white" size={20} />
                 </Button>
