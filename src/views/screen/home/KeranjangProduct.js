@@ -52,13 +52,19 @@ export default function KeranjangProduct() {
           pembayaran,
         }),
       });
-      const data = await response.json();
-      console.log(data);
-      Alert.alert("Sukses","Transaksi Berhasil!!!!");
-      dispatch(emptyCart());
-      setNamaPelanggan("");
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        Alert.alert("Sukses","Transaksi Berhasil!!!!");
+        dispatch(emptyCart());
+        setNamaPelanggan("");
+      } else {
+        // Display error message
+        Alert.alert('Transaksi Gagal', data.message);
+      }
     } catch (error) {
       console.log(error);
+      Alert.alert("Error", "An error occurred while logging in. Please try again.")
     }
   };
 

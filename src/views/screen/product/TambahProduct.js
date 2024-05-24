@@ -35,7 +35,6 @@ export default function TambahProduct() {
         },
         body: JSON.stringify({ nama_produk, jns_produk, harga, keterangan }),
       });
-      // console.log(response)
       const data = await response.json();
 
       if (response.ok) {
@@ -43,13 +42,11 @@ export default function TambahProduct() {
         setJenisProduk('');
         setHarga('');
         setKeterangan('');
-        Alert.alert("Sukses", data.msg);
+        Alert.alert("Sukses", "Sukses update data produk!");
       } else {
-        console.log(response);
         Alert.alert("Error", data.msg);
       }
     } catch (error) {
-      console.log(error)
       Alert.alert("Error", "Terdapat kesalahan saat input data");
     }
   };

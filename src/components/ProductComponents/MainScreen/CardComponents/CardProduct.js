@@ -7,7 +7,7 @@ import { Ionicons } from "react-native-vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { API_BASE_URL } from "../../../../api/apiConfig";
 
-export default function CardProduct({ data, searchData }) {
+export default function CardProduct({fetchProducts, data, searchData }) {
   const imageProduk = require("../../../../assets/logo.jpg");
   const navigation = useNavigation();
   console.log("Data = ", data);

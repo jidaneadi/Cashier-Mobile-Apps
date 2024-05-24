@@ -1,6 +1,5 @@
 import { View, StyleSheet } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import SearchBarProduct from "../../../components/SearchBarComponents/SearchBarProduct";
 import CardProduct from "../../../components/ProductComponents/MainScreen/CardComponents/CardProduct";
 import { API_BASE_URL } from "../../../api/apiConfig";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -60,7 +59,7 @@ export default function ProductScreen() {
         />
       </View>
       {/* Card Product */}
-      <CardProduct data={products} searchData={inputSearch} />
+      <CardProduct fetchProducts={fetchProducts}  data={products} searchData={inputSearch} />
     </View>
   );
 }
