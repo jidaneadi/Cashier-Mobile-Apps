@@ -1,5 +1,5 @@
 import { View, StyleSheet, ScrollView, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ScrollMenuSatuan from "../../../components/HomeComponents/MainScreen/ScrollComponents/ScrollMenuSatuan";
 import ScrollPaketCrispy from "../../../components/HomeComponents/MainScreen/ScrollComponents/ScrollPaketCrispy";
 import ScrollPaketPenyetan from "../../../components/HomeComponents/MainScreen/ScrollComponents/ScrollPaketPenyetan";
@@ -13,6 +13,7 @@ import SearchBarHome from "../../../components/SearchBarComponents/SearchBarHome
 import { API_BASE_URL } from "../../../api/apiConfig";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../dataservices/slice/cartSlice";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -34,9 +35,13 @@ const styles = StyleSheet.create({
 export default function CashierScreen() {
   const [item, setItem] = useState([]);
   const dispatch = useDispatch();
-  useEffect(() => {
-    fetchitem();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchitem();
+    }, [])
+  );
+
  const fetchitem = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/product`);

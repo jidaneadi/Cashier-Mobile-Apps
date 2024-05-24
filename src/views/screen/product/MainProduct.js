@@ -1,8 +1,9 @@
 import { View, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SearchBarProduct from "../../../components/SearchBarComponents/SearchBarProduct";
 import CardProduct from "../../../components/ProductComponents/MainScreen/CardComponents/CardProduct";
 import { API_BASE_URL } from "../../../api/apiConfig";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -16,9 +17,12 @@ const styles = StyleSheet.create({
 export default function ProductScreen() {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchProducts();
+    }, [])
+  );
+  
   const fetchProducts = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/product`);

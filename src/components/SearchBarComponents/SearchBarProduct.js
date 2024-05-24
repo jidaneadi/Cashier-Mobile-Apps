@@ -11,12 +11,6 @@ export default function SearchBarProduct() {
         <Ionicons name="search" size={12} />
         <TextInput placeholder="Cari produk" />
       </View>
-      <IconButton style={{
-        marginRight:0,
-      }} icon="filter" />
-      {/* <IconButton style={{
-        marginLeft:0,
-      }} icon="logout" /> */}
     </View>
   );
 }

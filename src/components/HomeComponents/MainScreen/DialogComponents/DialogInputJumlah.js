@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import {
   Dialog,
   Portal,
@@ -37,14 +37,13 @@ export default function DialogInputJumlah({
     };
     dispatch(addToCart(newItem));
     setJumlah(0);
-    console.log(addToCart(newItem));
-    console.log(productId);
     onClose(); // Tutup dialog setelah menambahkan ke keranjang
+    Alert.alert("Tambah Produk Berhasil!!!");
   };
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={onClose}>
-        <Dialog.Title>Jumlah {productId}</Dialog.Title>
+        <Dialog.Title>Jumlah</Dialog.Title>
         <Dialog.Content>
           <View
             style={{

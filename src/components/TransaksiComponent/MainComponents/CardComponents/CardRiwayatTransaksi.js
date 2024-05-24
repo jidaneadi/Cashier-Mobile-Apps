@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { Button, Card, IconButton } from "react-native-paper";
 import GlobalStyle from "../../../../styles/GlobalStyle";
 import { API_BASE_URL } from "../../../../api/apiConfig";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export default function CardRiwayatTransaksi({}) {
   const [dataTransaksi, setDataTransaksi] = useState([]);
   const navigation = useNavigation();
   const tanggalLogin = new Date().toISOString().slice(0, 10);
 
-  useEffect(() => {
-    fetchTransaksi();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransaksi();
+    }, [])
+  );
   const fetchTransaksi = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/transaksi`);
@@ -144,6 +145,14 @@ export default function CardRiwayatTransaksi({}) {
                   }}
                 >
                   {transaksi.nama_pelanggan}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {transaksi.pembayaran}
                 </Text>
                 <Text
                   style={{
