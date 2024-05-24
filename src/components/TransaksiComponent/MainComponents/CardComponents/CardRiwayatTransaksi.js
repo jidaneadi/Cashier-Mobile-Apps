@@ -5,7 +5,7 @@ import GlobalStyle from "../../../../styles/GlobalStyle";
 import { API_BASE_URL } from "../../../../api/apiConfig";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
-export default function CardRiwayatTransaksi({}) {
+export default function CardRiwayatTransaksi({ searchData }) {
   const [dataTransaksi, setDataTransaksi] = useState([]);
   const navigation = useNavigation();
   const tanggalLogin = new Date().toISOString().slice(0, 10);
@@ -19,10 +19,12 @@ export default function CardRiwayatTransaksi({}) {
     try {
       const response = await fetch(`${API_BASE_URL}/transaksi`);
       const data = await response.json();
-      const newData = data.filter(item => item.updatedAt.slice(0, 10) === tanggalLogin);
+      const newData = data.filter(
+        (item) => item.updatedAt.slice(0, 10) === tanggalLogin
+      );
       console.log(data);
-      console.log(tanggalLogin)
-      console.log(newData)
+      console.log(tanggalLogin);
+      console.log(newData);
       setDataTransaksi(newData);
     } catch (error) {
       console.error("Error fetching transaksi", error);
@@ -38,10 +40,15 @@ export default function CardRiwayatTransaksi({}) {
     navigation.navigate("Detail Transaksi", { idTransaksi });
   };
 
+  // Search Data Transaksi
+  const filteredProduk = dataTransaksi.filter((transaksi) =>
+    transaksi.nama_pelanggan.toLowerCase().includes(searchData.toLowerCase())
+  );
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {/* Card */}
-      {dataTransaksi.map((transaksi, index) => (
+      {filteredProduk.map((transaksi, index) => (
         <Card key={index} style={GlobalStyle.cardTransaksiContainer}>
           <Card.Content style={{ flexDirection: "column" }}>
             <View

@@ -13,7 +13,9 @@ import SearchBarHome from "../../../components/SearchBarComponents/SearchBarHome
 import { API_BASE_URL } from "../../../api/apiConfig";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../dataservices/slice/cartSlice";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { IconButton } from "react-native-paper";
+import GlobalStyle from "../../../styles/GlobalStyle";
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -34,7 +36,9 @@ const styles = StyleSheet.create({
 
 export default function CashierScreen() {
   const [item, setItem] = useState([]);
+  const [inputSearch, setInputSearch] = useState("");
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
@@ -42,50 +46,103 @@ export default function CashierScreen() {
     }, [])
   );
 
- const fetchitem = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/product`);
-    const data = await response.json();
-    setItem(data)
-  } catch (error) {
-    console.log(error)
-  }
- }
+  const fetchitem = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/product`);
+      const data = await response.json();
+      setItem(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
- const handleAddToCart = (items) => {
-  dispatch(addToCart(items));
- }
+  const handleAddToCart = (items) => {
+    dispatch(addToCart(items));
+  };
+
+  const handleSearch = (items) => {
+    setInputSearch(items);
+  };
   return (
     <View style={styles.mainContainer}>
-      {/* Search Bar */}
-      <SearchBarHome />
+      <View style={GlobalStyle.searchContainer}>
+        {/* Search Bar */}
+        <SearchBarHome onSearch={handleSearch} />
+        <IconButton
+          style={{
+            marginRight: 0,
+          }}
+          icon="cart-outline"
+          onPress={() =>
+            navigation.navigate("Keranjang Product", {
+              screen: "KeranjangProduct",
+            })
+          }
+        />
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Scroll Menu Satuan*/}
-        <ScrollMenuSatuan produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollMenuSatuan
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Paket Crispy*/}
-        <ScrollPaketCrispy produk={item} onAddToCart={handleAddToCart} />
+        <ScrollPaketCrispy
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Paket Penyetan*/}
-        <ScrollPaketPenyetan produk={item} onAddToCart={handleAddToCart} />
+        <ScrollPaketPenyetan
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Menu Mie Pedas*/}
-        <ScrollMiePedas produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollMiePedas
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Saus Spesial*/}
-        <ScrollSausSpesial produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollSausSpesial
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Menu Sayur*/}
-        <ScrollMenuSayur produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollMenuSayur
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Minuman*/}
-        <ScrollMinuman produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollMinuman
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Minuman Varian Rasa*/}
-        <ScrollMinumanRasa produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollMinumanRasa
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
 
         {/* Scroll Menu Lain-Lain*/}
-        <ScrollMenuLain produk={item} onAddToCart={handleAddToCart}/>
+        <ScrollMenuLain
+          produk={item}
+          searchData={inputSearch}
+          onAddToCart={handleAddToCart}
+        />
       </ScrollView>
     </View>
   );

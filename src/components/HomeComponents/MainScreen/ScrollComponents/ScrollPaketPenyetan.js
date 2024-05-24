@@ -5,7 +5,11 @@ import { Card } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import DialogInputJumlah from "../DialogComponents/DialogInputJumlah";
 
-export default function ScrollPaketPenyetan({ produk, onAddToCart }) {
+export default function ScrollPaketPenyetan({
+  produk,
+  searchData,
+  onAddToCart,
+}) {
   const [visible, setVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
@@ -22,29 +26,35 @@ export default function ScrollPaketPenyetan({ produk, onAddToCart }) {
       setVisible(false);
     }
   };
+
+  // Filter produk berdasarkan data pencarian
+  const filteredProduk = produk.filter(
+    (product) =>
+      product.jns_produk === "paket penyetan" &&
+      product.nama_produk.toLowerCase().includes(searchData.toLowerCase())
+  );
+  
   return (
     <View>
       <Text style={GlobalStyle.textStyle}>Paket Penyetan</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {produk
-          .filter((product) => product.jns_produk === "paket penyetan")
-          .map((product, i) => (
-            <Card
-              key={i}
-              onPress={() => showDialog(product)}
-              style={GlobalStyle.cardContainer}
-            >
-              <Card.Cover style={GlobalStyle.cardCover} />
-              <Card.Content style={GlobalStyle.cardContent}>
-                <Text style={GlobalStyle.textCardContent}>
-                  {product.nama_produk}
-                </Text>
-                <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                  {product.harga}
-                </Text>
-              </Card.Content>
-            </Card>
-          ))}
+        {filteredProduk.map((product, i) => (
+          <Card
+            key={i}
+            onPress={() => showDialog(product)}
+            style={GlobalStyle.cardContainer}
+          >
+            <Card.Cover style={GlobalStyle.cardCover} />
+            <Card.Content style={GlobalStyle.cardContent}>
+              <Text style={GlobalStyle.textCardContent}>
+                {product.nama_produk}
+              </Text>
+              <Text style={{ fontSize: 12, fontWeight: "500" }}>
+                {product.harga}
+              </Text>
+            </Card.Content>
+          </Card>
+        ))}
       </ScrollView>
       {selectedProduct && ( // Melakukan pemilihan data produk
         <DialogInputJumlah

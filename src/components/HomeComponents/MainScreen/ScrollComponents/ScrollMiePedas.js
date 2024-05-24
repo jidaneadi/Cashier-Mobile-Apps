@@ -5,7 +5,7 @@ import { Card } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import DialogInputJumlah from "../DialogComponents/DialogInputJumlah";
 
-export default function ScrollMiePedas({produk, onAddToCart}) {
+export default function ScrollMiePedas({produk,searchData, onAddToCart}) {
   const [visible, setVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
@@ -22,11 +22,17 @@ export default function ScrollMiePedas({produk, onAddToCart}) {
     }
   };
 
+  // Filter produk berdasarkan data pencarian
+  const filteredProduk = produk.filter(
+    (product) =>
+      product.jns_produk === "mie pedas" &&
+      product.nama_produk.toLowerCase().includes(searchData.toLowerCase())
+  );
   return (
     <View>
       <Text style={GlobalStyle.textStyle}>Mie Pedas</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {produk.filter((product) => product.jns_produk === "mie pedas").map((product, i) => (
+        {filteredProduk.map((product, i) => (
           <Card
             key={i}
             onPress={() => showDialog(product)}

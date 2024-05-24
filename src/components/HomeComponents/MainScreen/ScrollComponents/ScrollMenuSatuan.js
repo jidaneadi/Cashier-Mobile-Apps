@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import GlobalStyle from "../../../../styles/GlobalStyle";
 import { View, ScrollView, Text } from "react-native";
 import { Card } from "react-native-paper";
-import { useDispatch } from "react-redux";
 import DialogInputJumlah from "../DialogComponents/DialogInputJumlah";
 
-export default function ScrollMenuSatuan({ produk, onAddToCart }) {
+export default function ScrollMenuSatuan({ produk, searchData, onAddToCart }) {
   const [visible, setVisible] = React.useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const dispatch = useDispatch();
+
   const showDialog = (product) => {
     setSelectedProduct(product);
     setVisible(true);
@@ -22,30 +21,34 @@ export default function ScrollMenuSatuan({ produk, onAddToCart }) {
     }
   };
 
-  // const data = produk.data;
+  // Filter produk berdasarkan data pencarian
+  const filteredProduk = produk.filter(
+    (product) =>
+      product.jns_produk === "menu satuan" &&
+      product.nama_produk.toLowerCase().includes(searchData.toLowerCase())
+  );
+
   return (
     <View>
       <Text style={GlobalStyle.textStyle}>Menu Satuan</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {produk
-          .filter((product) => product.jns_produk === "menu satuan")
-          .map((product, i) => (
-            <Card
-              key={i}
-              onPress={() => showDialog(product)}
-              style={GlobalStyle.cardContainer}
-            >
-              <Card.Cover style={GlobalStyle.cardCover} />
-              <Card.Content style={GlobalStyle.cardContent}>
-                <Text style={GlobalStyle.textCardContent}>
-                  {product.nama_produk}
-                </Text>
-                <Text style={{ fontSize: 12, fontWeight: "500" }}>
-                  {product.harga}
-                </Text>
-              </Card.Content>
-            </Card>
-          ))}
+        {filteredProduk.map((product, i) => (
+          <Card
+            key={i}
+            onPress={() => showDialog(product)}
+            style={GlobalStyle.cardContainer}
+          >
+            <Card.Cover style={GlobalStyle.cardCover} />
+            <Card.Content style={GlobalStyle.cardContent}>
+              <Text style={GlobalStyle.textCardContent}>
+                {product.nama_produk}
+              </Text>
+              <Text style={{ fontSize: 12, fontWeight: "500" }}>
+                {product.harga}
+              </Text>
+            </Card.Content>
+          </Card>
+        ))}
       </ScrollView>
       {selectedProduct && ( // Melakukan pemilihan data produk
         <DialogInputJumlah

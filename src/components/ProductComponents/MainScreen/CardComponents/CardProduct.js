@@ -7,11 +7,10 @@ import { Ionicons } from "react-native-vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { API_BASE_URL } from "../../../../api/apiConfig";
 
-export default function CardProduct(props) {
-  const imageProduk = require('../../../../assets/logo.jpg');
+export default function CardProduct({ data, searchData }) {
+  const imageProduk = require("../../../../assets/logo.jpg");
   const navigation = useNavigation();
-  const products = props.data;
-  console.log("Data = ", props.data);
+  console.log("Data = ", data);
 
   const handleEditProduk = (productId) => {
     navigation.navigate("Edit Product", { productId });
@@ -41,12 +40,17 @@ export default function CardProduct(props) {
     }
   };
 
+  // Filter produk berdasarkan data pencarian
+  const filteredProduk = data.filter((product) =>
+    product.nama_produk.toLowerCase().includes(searchData.toLowerCase())
+  );
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {/* Button Add */}
       <ButtonAdd />
       {/* Card */}
-      {products.map((product, index) => (
+      {filteredProduk.map((product, index) => (
         <Card key={index} style={GlobalStyle.cardProductContainer}>
           <View
             style={{
@@ -60,8 +64,7 @@ export default function CardProduct(props) {
                 borderRadius: 0,
               }}
               source={imageProduk}
-            >
-            </Card.Cover>
+            ></Card.Cover>
             {/* </View> */}
             <View style={{ justifyContent: "center" }}>
               <Card.Content>

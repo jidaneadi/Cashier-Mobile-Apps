@@ -54,8 +54,9 @@ export default function KeranjangProduct() {
       });
       const data = await response.json();
       console.log(data);
-      Alert.alert("Transaksi Berhasil!!!!");
+      Alert.alert("Sukses","Transaksi Berhasil!!!!");
       dispatch(emptyCart());
+      setNamaPelanggan("");
     } catch (error) {
       console.log(error);
     }

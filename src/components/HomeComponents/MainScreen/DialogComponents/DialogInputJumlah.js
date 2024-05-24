@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import {
   Dialog,
   Portal,
@@ -13,7 +13,6 @@ import { addToCart } from "../../../../dataservices/slice/cartSlice";
 export default function DialogInputJumlah({
   visible,
   onClose,
-  onAdd,
   productId,
   productName,
   productHarga
@@ -38,7 +37,7 @@ export default function DialogInputJumlah({
     dispatch(addToCart(newItem));
     setJumlah(0);
     onClose(); // Tutup dialog setelah menambahkan ke keranjang
-    Alert.alert("Tambah Produk Berhasil!!!");
+    Alert.alert("Sukses","Tambah Produk Berhasil!!!");
   };
   return (
     <Portal>

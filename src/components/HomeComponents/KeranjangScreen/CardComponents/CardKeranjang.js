@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import { Button, Card, Text, Title } from "react-native-paper";
 import { Ionicons } from "react-native-vector-icons";
 import GlobalStyle from "../../../../styles/GlobalStyle";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addItemCart, removeFromCart } from "../../../../dataservices/slice/cartSlice";
 
 export default function CardKeranjang({productId, productName, productHarga, jml}) {

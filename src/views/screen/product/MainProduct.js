@@ -3,7 +3,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import SearchBarProduct from "../../../components/SearchBarComponents/SearchBarProduct";
 import CardProduct from "../../../components/ProductComponents/MainScreen/CardComponents/CardProduct";
 import { API_BASE_URL } from "../../../api/apiConfig";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import SearchBarHome from "../../../components/SearchBarComponents/SearchBarHome";
+import { IconButton } from "react-native-paper";
+import GlobalStyle from "../../../styles/GlobalStyle";
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -16,13 +19,19 @@ const styles = StyleSheet.create({
 
 export default function ProductScreen() {
   const [products, setProducts] = useState([]);
+  const navigation = useNavigation();
+  const [inputSearch, setInputSearch] = useState("");
 
   useFocusEffect(
     useCallback(() => {
       fetchProducts();
     }, [])
   );
-  
+
+  const handleSearch = (items) => {
+    setInputSearch(items);
+  };
+
   const fetchProducts = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/product`);
@@ -32,13 +41,26 @@ export default function ProductScreen() {
       console.error("Error fetching products:", error);
     }
   };
-  
+
   return (
     <View style={styles.mainContainer}>
-      {/* Search Bar */}
-      <SearchBarProduct />
+      <View style={GlobalStyle.searchContainer}>
+        {/* Search Bar */}
+        <SearchBarHome onSearch={handleSearch} />
+        <IconButton
+          style={{
+            marginRight: 0,
+          }}
+          icon="logout"
+          onPress={() =>
+            navigation.navigate("Main", {
+              screen: "LoginScreen",
+            })
+          }
+        />
+      </View>
       {/* Card Product */}
-      <CardProduct data={products}/>
+      <CardProduct data={products} searchData={inputSearch} />
     </View>
   );
 }
